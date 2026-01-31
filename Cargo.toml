@@ -1,14 +1,14 @@
 [package]
 name = "jacques"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2024"
 rust-version = "1.88"
 authors = ["0xAeneas"]
 license = "MIT OR Apache-2.0"
 description = "High-performance lock-free MPMC queues with horizontal scaling and zero-allocation operation"
 documentation = "https://docs.rs/jacques"
-repository = "https://github.com/0xAeneas/jacques"
-homepage = "https://github.com/0xAeneas/jacques"
+repository = "https://github.com/trbritt/jacques"
+homepage = "https://github.com/trbritt/jacques"
 readme = "README.md"
 keywords = ["queue", "mpmc", "lock-free", "concurrent", "lockfree"]
 categories = ["concurrency", "data-structures", "no-std"]
