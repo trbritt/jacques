@@ -1,0 +1,72 @@
+[package]
+name = "jacques"
+version = "0.1.1"
+edition = "2024"
+rust-version = "1.88"
+authors = ["0xAeneas"]
+license = "MIT OR Apache-2.0"
+description = "High-performance lock-free MPMC queues with horizontal scaling and zero-allocation operation"
+documentation = "https://docs.rs/jacques"
+repository = "https://github.com/0xAeneas/jacques"
+homepage = "https://github.com/0xAeneas/jacques"
+readme = "README.md"
+keywords = ["queue", "mpmc", "lock-free", "concurrent", "lockfree"]
+categories = ["concurrency", "data-structures", "no-std"]
+exclude = [".github/*", "benches/*", "examples/*"]
+
+[package.metadata.docs.rs]
+rustdoc-args = ["--cfg", "docsrs"]
+rustc-args = ["-C", "target-cpu=x86-64-v2"]
+
+[target.'cfg(not(target_env = "msvc"))'.dependencies]
+tikv-jemallocator = { version = "0.6", optional = true }
+
+[dependencies]
+crossbeam-utils = { version = "0.8.21", default-features = false }
+pprof = { version = "0.13.0", features = ["flamegraph"], optional = true }
+thiserror = { version = "2.0.16" , default-features = false }
+portable-atomic = { version = "1.11.1" , default-features = false }
+
+[dev-dependencies]
+tokio = { version = "1.47.1", features = ["sync", "rt-multi-thread", "macros", "time"] }
+criterion = { version = "0.5", features = ["html_reports", "async_tokio"] }
+
+[[bench]]
+name = "queue_bench"
+harness = false
+
+[features]
+default = []
+dev-profiling = ["pprof"]
+jemalloc = ["tikv-jemallocator"]
+
+[lints.rust]
+unsafe_code = "allow"
+missing_docs = "deny"
+unused_imports = "deny"
+unused_variables = "deny"
+dead_code = "deny"
+unreachable_code = "deny"
+unused_must_use = "deny"
+
+[lints.clippy]
+all = { level = "deny", priority = -1 }
+pedantic = { level = "deny", priority = -1 }
+nursery = { level = "deny", priority = -1 }
+cargo = { level = "deny", priority = -1 }
+
+[profile.bench]
+debug = true
+
+[profile.maxperf]
+inherits = "release"
+opt-level = 3
+debug = false
+strip = "symbols"
+debug-assertions = false
+overflow-checks = false
+lto = "fat"
+codegen-units = 1
+incremental = false
+panic = "abort"
+rpath = false
